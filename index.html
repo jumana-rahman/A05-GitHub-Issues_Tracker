@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GutHub Issues Tracker</title>
+    <title>GitHub Issues Tracker</title>
     <link rel="stylesheet" href="./tailwind.config.css">
 
     <!-- Tailwind & DaisyUI -->
@@ -18,8 +18,48 @@
     <!-- Google Font -->
 
 </head>
-<body>
-    <h1>GitHub Issues Tracker</h1>
+<body class="min-h-screen max-w-md bg-white mx-auto">
+    
+    <main>
+
+        <div class="form py-10">
+            <div class="card bg-white w-full max-w-sm mx-auto shrink-0 shadow-xl border border-gray-100 rounded-2xl">
+                <div class="logo pt-8 text-center">
+                    <img class="w-[100px] mx-auto" src="./assets/github-logo.png" alt="logo">
+                    <h2 class="text-[#1F2937] text-2xl font-semibold pt-6">GitHub Issues Tracker</h2>
+                    <p class="text-[#64748B] text-[16px] font-normal pt-1.5">Sign in to manage your issues</p>
+                </div>
+                
+                <div class="card-body pt-6">
+                    <fieldset class="fieldset">
+                        <label class="label text-neutral font-bold">Username</label>
+                        <input id="username" type="text" class="input rounded-md" placeholder="Enter Username" />
+                        <p class="text-primary text-sm font-normal pb-2">Default: admin</p>
+                        
+                        <label class="label text-neutral font-bold">Password</label>
+                        <input id="password" type="password" class="input rounded-md" placeholder="Enter Password" />
+                        <p class="text-primary text-sm font-normal pb-5">Default: admin123</p>
+                        
+                        <button id="login-btn" class="btn btn-primary rounded-md">Sign In</button>
+
+                        <div class="divider line1 text-[#64748B] text-[16px] font-normal">OR</div>
+
+                        <div class="demo text-center">
+                            <p class="text-[#64748B] text-[14px] font-normal pb-2">Demo Credentials:</p>
+                            
+                            <div class="credentials bg-[#F8FAFC] p-8">
+                                <p class="text-neutral font-regular text-[14px]"><span class="font-semibold">Username: </span>admin</p>
+                                
+                                <p class="text-neutral font-regular text-[14px]"><span class="font-semibold">Password: </span>admin123</p
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    
+                </div>
+            </div>
+        </div>
+    </main>
 
 
 
