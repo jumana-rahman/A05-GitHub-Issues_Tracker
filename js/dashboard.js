@@ -1,3 +1,4 @@
+let allIssues = [];
 const allBtn = document.getElementById('allBtn');
 const openBtn = document.getElementById('openBtn');
 const closedBtn = document.getElementById('closedBtn');
@@ -27,15 +28,54 @@ const priorityMap = {
     low: "badge-neutral"
 }
 
+function showLoader() {
+  const container = document.getElementById("issuesContainer");
+
+  container.innerHTML = `
+    <div class="flex justify-center items-center py-10 col-span-full">
+        <span class="loading loading-spinner loading-lg text-primary"></span>
+    </div>
+  `;
+};
+
 async function loadIssues() {
-    // showSpinner(true);
 
-    const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
-    const data = await res.json();
+  const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
+  const data = await res.json();
 
-    displayIssues(data.data);
+  allIssues = data.data;
 
-    // showSpinner(false);
+  displayIssues(allIssues);
+  updateCounts();
+  updateHeaderCount(allIssues.length);
+
+   
+}
+
+function updateCounts(){
+
+  const openCount = allIssues.filter(issue => issue.status === "open").length;
+  const closedCount = allIssues.filter(issue => issue.status === "closed").length;
+
+  document.getElementById("allCount").textContent = allIssues.length;
+  document.getElementById("openCount").textContent = openCount;
+  document.getElementById("closedCount").textContent = closedCount;
+}
+
+function updateHeaderCount(count){
+    const header = document.getElementById("issueCountText");
+    header.textContent = `${count} Issues`;
+}
+
+function setActiveTab(activeBtn){
+
+    [allBtn, openBtn, closedBtn].forEach(btn=>{
+        btn.classList.remove("btn-primary");
+        btn.classList.add("btn-outline");
+    });
+
+    activeBtn.classList.remove("btn-outline");
+    activeBtn.classList.add("btn-primary");
 }
 
 function displayIssues(issues){
@@ -117,6 +157,48 @@ function displayIssues(issues){
 }
 loadIssues();
 
+allBtn.addEventListener("click", () => {
+
+  setActiveTab(allBtn);
+  showLoader();
+
+  setTimeout(() => {
+      displayIssues(allIssues);
+      updateHeaderCount(allIssues.length);
+  }, 400);
+
+});
+
+
+openBtn.addEventListener("click", () => {
+
+  setActiveTab(openBtn);
+  showLoader();
+
+  const openIssues = allIssues.filter(issue => issue.status === "open");
+
+  setTimeout(() => {
+      displayIssues(openIssues);
+      updateHeaderCount(openIssues.length);
+  }, 400);
+
+});
+
+
+closedBtn.addEventListener("click", () => {
+
+  setActiveTab(closedBtn);
+  showLoader();
+
+  const closedIssues = allIssues.filter(issue => issue.status === "closed");
+
+  setTimeout(() => {
+      displayIssues(closedIssues);
+      updateHeaderCount(closedIssues.length);
+  }, 400);
+
+});
+
 async function openModal(issueId) {
   const modal = document.getElementById("issueModal");
   const content = document.getElementById("modalContent");
@@ -130,13 +212,6 @@ async function openModal(issueId) {
     // Status
     const statusText = issue.status === "open" ? "Opened" : "Closed";
     const statusColor = issue.status === "open" ? "bg-[#00A96E]" : "bg-[#A855F7]";
-
-    // Priority
-    // const priority = issue.priority ? issue.priority.toLowerCase() : "low";
-    // const priorityClass =
-    //   priority.toUpperCase() === "high" ? "badge-error" :
-    //   priority.toUpperCase() === "medium" ? "badge-primary" :
-    //   "badge-neutral";
 
     const priorityClass = priorityMap[issue.priority.toLowerCase()] || "badge-neutral";
 
@@ -165,7 +240,7 @@ async function openModal(issueId) {
 
       <p class="text-[16px] text-[#64748B] font-normal py-3">${issue.description}</p>
 
-      <div class="bg-[#F8FAFC] rounded-md p-3 flex gap-6">
+      <div class="bg-[#F8FAFC] rounded-md p-3 flex gap-30">
         <div>
           <p class="text-[16px] text-[#64748B] font-normal">Assignee:</p>
           <h3 class="text-[16px] text-[#64748B] font-semibold">${issue.assignee || "Not assigned"}</h3>
@@ -173,8 +248,14 @@ async function openModal(issueId) {
 
         <div>
           <p class="text-[16px] text-[#64748B] font-normal">Priority:</p>
-          <span class="btn ${priorityClass} text-white rounded-full text-[12px]">${issue.priority}</span>
+          <span class="badge ${priorityClass} text-white rounded-full text-[12px]">${issue.priority}</span>
         </div>
+
+        
+      </div>
+
+      <div class="modal-action mt-4">
+        <button class="btn btn-primary" onclick="document.getElementById('issueModal').close()">Close</button>
       </div>
     `;
 
