@@ -166,7 +166,6 @@ allBtn.addEventListener("click", () => {
 
 });
 
-
 openBtn.addEventListener("click", () => {
 
   setActiveTab(openBtn);
@@ -201,18 +200,15 @@ async function openModal(issueId) {
   const content = document.getElementById("modalContent");
 
   try {
-    // Fetch single issue details
     const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${issueId}`);
     const data = await res.json();
     const issue = data.data;
 
-    // Status
     const statusText = issue.status === "open" ? "Opened" : "Closed";
     const statusColor = issue.status === "open" ? "bg-[#00A96E]" : "bg-[#A855F7]";
 
     const priorityClass = priorityMap[issue.priority.toLowerCase()] || "badge-neutral";
 
-    // Labels
     let labelsArray = Array.isArray(issue.labels) ? issue.labels : [];
     const labelsHTML = labelsArray.map(label => {
       const style = labelStyles[label.toLowerCase()] || { class: "badge-neutral", icon: "fa-tag" };
@@ -221,7 +217,6 @@ async function openModal(issueId) {
               </div>`;
     }).join("");
 
-    // Inject modal content
     content.innerHTML = `
       <h2 class="text-2xl font-bold text-[#1F2937]">${issue.title}</h2>
 
@@ -268,7 +263,6 @@ async function searchIssuesAPI(keyword){
 
     const searchText = keyword.trim();
 
-    // if empty, load all issues
     if(!searchText){
         displayIssues(allIssues);
         updateHeaderCount(allIssues.length);
@@ -276,7 +270,7 @@ async function searchIssuesAPI(keyword){
     }
 
     try {
-        showLoader(); // show loader while fetching
+        showLoader(); 
 
         const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${encodeURIComponent(searchText)}`);
         const data = await res.json();
