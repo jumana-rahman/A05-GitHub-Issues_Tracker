@@ -65,8 +65,8 @@
 
         <section>
             <div class="container w-[80%] mx-auto mt-5 shadow rounded-md">
-                <div class="issues shadow">
-                    <div class="issues-content bg-white p-6 rounded-md flex items-center gap-3">
+                <div class="issues shadow bg-white p-6 rounded-md flex justify-between items-center">
+                    <div class="issues-content flex items-center gap-3">
                         <div class="issues-img p-3 bg-[#ECE4FF] rounded-full">
                             <img src="./assets/Aperture.png" alt="aperture">
                         </div>
@@ -76,7 +76,41 @@
                             <p class="text-[#64748B] text-[16px] font-normal">Track and manage your project issues</p>
                         </div>
                     </div>
+
+                    <div class="issues-status block sm:flex gap-5">
+                        <p class="text-[#1F2937] text-[16px] font-medium flex items-center gap-2"><span class="h-4 w-4 inline-block bg-[#00A96E] rounded-full"></span>Open</p>
+                        
+                        <p class="text-[#1F2937] text-[16px] font-medium flex items-center gap-2"><span class="h-4 w-4 inline-block bg-[#A855F7] rounded-full"></span>Closed</p>
+                    </div>
                 </div>
+
+                <!-- Cards -->
+                <div class="issues-cards w-11/12 mx-auto pt-10 pb-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <div class="card bg-white max-w-95 shadow-sm">
+                        <div class="card-body">
+                            <div class="flex justify-between items-center">
+                                <img class="w-4" src="./assets/Open-Status.png" alt="Open-Status">
+                                <div class="badge badge-soft badge-error rounded-full">HIGH</div>
+                            </div>
+                            
+                            <h2 class="card-title text-[14px] text-[#1F2937] pt-2">Fix navigation menu on mobile devices</h2>
+                            
+                            <p class="text-[12px] text-[#64748B]">The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.</p>
+                            
+                            <div class="mt-3 flex gap-3">
+                                <div class="badge badge-soft badge-error border border-[#EF4444] rounded-full inline-block"><i class="fa-solid fa-bug mr-1.5"></i>BUG</div>
+                                
+                                <div class="badge badge-soft badge-warning border border-[#D97706] rounded-full inline-block"><i class="fa-solid fa-globe mr-1.5"></i>HELP WANTED</div>
+                            </div>
+
+                            <div class="divider"></div>
+
+                            <p class="text-[12px] font-normal text-[#64748B]">#1 by john_doe</p>
+                            <p class="text-[12px] font-normal text-[#64748B]">1/15/2024</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cards -->
             </div>
         </section>
     </main>
