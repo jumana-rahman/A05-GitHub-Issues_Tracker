@@ -57,9 +57,9 @@
     <main>
         <div class="container w-[80%] mx-auto mt-12">
             <div class="tabs-button bg-white p-6 shadow rounded-md">
-                <button class="btn btn-primary mr-1.5">All</button>
-                <button class="btn btn-outline mr-1.5">Open</button>
-                <button class="btn btn-outline">Closed</button>
+                <button id="allBtn" class="btn btn-primary mr-1.5">All</button>
+                <button id="openBtn" class="btn btn-outline mr-1.5">Open</button>
+                <button id="closedBtn" class="btn btn-outline">Closed</button>
             </div>
         </div>
 
@@ -85,8 +85,8 @@
                 </div>
 
                 <!-- Cards -->
-                <div class="issues-cards w-11/12 mx-auto pt-10 pb-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    <div class="card bg-white max-w-95 shadow-sm border-t-4 border-[#00A96E]">
+                <div id="issuesContainer" class="issues-cards w-11/12 mx-auto pt-10 pb-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <!-- <div class="card bg-white max-w-95 shadow-sm border-t-4 border-[#00A96E]">
                         <div class="card-body">
                             <div class="flex justify-between items-center">
                                 <img class="w-4" src="./assets/Open-Status.png" alt="Open-Status">
@@ -108,7 +108,7 @@
                             <p class="text-[12px] font-normal text-[#64748B]">#1 by john_doe</p>
                             <p class="text-[12px] font-normal text-[#64748B]">1/15/2024</p>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <!-- Cards -->
 
@@ -160,5 +160,7 @@
     </main>
 
 
+
+    <script src="./js/dashboard.js"></script>
 </body>
 </html>
