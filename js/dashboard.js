@@ -2,7 +2,8 @@ let allIssues = [];
 const allBtn = document.getElementById('allBtn');
 const openBtn = document.getElementById('openBtn');
 const closedBtn = document.getElementById('closedBtn');
-
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
 const labelStyles = {
   "bug": {
     class: "badge-error border border-[#EF4444]",
@@ -21,7 +22,6 @@ const labelStyles = {
     icon: "fa-star" 
   }
 };
-
 const priorityMap = {
     high: "badge-error",
     medium: "badge-primary",
@@ -39,7 +39,6 @@ function showLoader() {
 };
 
 async function loadIssues() {
-
   const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
   const data = await res.json();
 
@@ -48,8 +47,6 @@ async function loadIssues() {
   displayIssues(allIssues);
   updateCounts();
   updateHeaderCount(allIssues.length);
-
-   
 }
 
 function updateCounts(){
@@ -219,7 +216,7 @@ async function openModal(issueId) {
     let labelsArray = Array.isArray(issue.labels) ? issue.labels : [];
     const labelsHTML = labelsArray.map(label => {
       const style = labelStyles[label.toLowerCase()] || { class: "badge-neutral", icon: "fa-tag" };
-      return `<div class="badge badge-soft ${style.class} rounded-full inline-block mr-2 mb-2">
+      return `<div class="badge badge-soft ${style.class} rounded-full inline-block mr-2 mb-2 capitalize">
                 <i class="fa-solid ${style.icon} mr-1"></i> ${label}
               </div>`;
     }).join("");
@@ -234,7 +231,7 @@ async function openModal(issueId) {
         <li class="text-[12px] text-[#64748B] font-normal">${new Date(issue.createdAt).toLocaleDateString()}</li>
       </ul>
 
-      <div class="mt-2 flex gap-2">
+      <div class="mt-2 flex gap-2 ">
         ${labelsHTML}
       </div>
 
@@ -248,7 +245,7 @@ async function openModal(issueId) {
 
         <div>
           <p class="text-[16px] text-[#64748B] font-normal">Priority:</p>
-          <span class="badge ${priorityClass} text-white rounded-full text-[12px]">${issue.priority}</span>
+          <span class="badge ${priorityClass} text-white rounded-full text-[12px] uppercase">${issue.priority}</span>
         </div>
 
         
@@ -266,3 +263,43 @@ async function openModal(issueId) {
     alert("Failed to load issue details.");
   }
 }
+
+async function searchIssuesAPI(keyword){
+
+    const searchText = keyword.trim();
+
+    // if empty, load all issues
+    if(!searchText){
+        displayIssues(allIssues);
+        updateHeaderCount(allIssues.length);
+        return;
+    }
+
+    try {
+        showLoader(); // show loader while fetching
+
+        const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${encodeURIComponent(searchText)}`);
+        const data = await res.json();
+
+        const filteredIssues = data.data || [];
+
+        displayIssues(filteredIssues);
+        updateHeaderCount(filteredIssues.length);
+
+    } catch (error) {
+        console.error("Search API failed:", error);
+        alert("Failed to search issues. Please try again.");
+    }
+}
+
+searchBtn.addEventListener("click", () => {
+  const keyword = searchInput.value;
+  searchIssuesAPI(keyword);
+});
+
+searchInput.addEventListener("keydown", (e) => {
+  if(e.key === "Enter"){
+    const keyword = searchInput.value;
+    searchIssuesAPI(keyword);
+  }
+});
